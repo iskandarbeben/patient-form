@@ -22,24 +22,25 @@
         /* Printable Document Layout (Hidden on Screen) */
         #print-area { display: none; }
 
-        /* A4 Page Print Rules */
+        /* A4 Page Print Rules - Fits Single Page */
         @media print {
-            @page { size: A4 portrait; margin: 10mm; }
+            @page { size: A4 portrait; margin: 8mm; }
             body { background: transparent !important; margin: 0; padding: 0; }
             .no-print { display: none !important; }
-            #print-area { display: block !important; font-family: Arial, sans-serif; font-size: 14px; line-height: 1.6; color: #000; }
-            .doc-code { text-align: right; font-size: 11px; margin-bottom: 30px; }
-            .header { text-align: center; margin-bottom: 45px; }
-            .header h2 { margin: 0; font-size: 19px; letter-spacing: 1px; }
-            .header h3 { margin: 6px 0 0 0; font-weight: normal; font-size: 15px; }
-            .field-row { display: flex; align-items: flex-end; margin-bottom: 26px; width: 100%; }
+            #print-area { display: block !important; font-family: Arial, sans-serif; font-size: 13px; line-height: 1.4; color: #000; }
+            .doc-code { text-align: right; font-size: 10px; margin-bottom: 10px; }
+            .header { text-align: center; margin-bottom: 25px; }
+            .header h2 { margin: 0; font-size: 18px; letter-spacing: 1px; }
+            .header h3 { margin: 4px 0 0 0; font-weight: normal; font-size: 14px; }
+            .field-row { display: flex; align-items: flex-end; margin-bottom: 16px; width: 100%; }
             .field-label { white-space: nowrap; padding-right: 5px; }
-            .field-value { border-bottom: 1px solid #000; flex-grow: 1; padding-left: 8px; font-weight: bold; min-height: 22px; }
-            .checkbox-box { border: 1px solid #000; min-width: 120px; height: 26px; display: inline-block; text-align: center; line-height: 26px; font-weight: bold; margin-left: 8px; margin-right: 20px; padding: 0 5px; }
-            .section-spacer { margin-top: 35px; }
+            .field-value { border-bottom: 1px solid #000; flex-grow: 1; padding-left: 8px; font-weight: bold; min-height: 18px; }
+            .checkbox-box { border: 1px solid #000; min-width: 100px; height: 22px; display: inline-block; text-align: center; line-height: 22px; font-weight: bold; margin-left: 8px; margin-right: 20px; padding: 0 5px; }
+            .section-spacer { margin-top: 15px; }
             .stamps-container { display: flex; justify-content: space-between; margin-top: 15px; }
-            .stamp-box { border: 1px dashed #000; width: 46%; height: 120px; padding: 12px; font-size: 12px; box-sizing: border-box; line-height: 2.2; }
+            .stamp-box { border: 1px dashed #000; width: 48%; height: 100px; padding: 8px; font-size: 11px; box-sizing: border-box; line-height: 1.8; }
         }
+
     </style>
 </head>
 <body>

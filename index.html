@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Psychiatric Case Record</title>
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#ffffff">
+    <style>
+        /* Screen Form Styling */
+        body { font-family: Arial, sans-serif; margin: 20px; background-color: #f4f4f9; }
+        .no-print { max-width: 800px; margin: 0 auto 20px auto; background: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        .form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-bottom: 15px; }
+        .full-width { grid-column: 1 / -1; }
+        label { font-weight: bold; font-size: 13px; display: block; margin-bottom: 5px; }
+        input[type="text"], select { width: 100%; padding: 8px; box-sizing: border-box; border: 1px solid #ccc; border-radius: 4px; background-color: #fff; font-size: 14px; }
+        .radio-group { display: flex; gap: 20px; align-items: center; padding-top: 5px; }
+        .radio-group label { font-weight: normal; font-size: 14px; cursor: pointer; display: flex; align-items: center; gap: 5px; }
+        hr.divider { border: 0; height: 1px; background: #ddd; margin: 25px 0; }
+        button.print-btn { background-color: #007aff; color: white; border: none; padding: 12px 24px; font-size: 16px; font-weight: bold; border-radius: 6px; cursor: pointer; width: 100%; margin-top: 15px; }
+
+        /* Printable Document Layout (Hidden on Screen) */
+        #print-area { display: none; }
+
+        /* A4 Page Print Rules */
+        @media print {
+            @page { size: A4 portrait; margin: 10mm; }
+            body { background: transparent !important; margin: 0; padding: 0; }
+            .no-print { display: none !important; }
+            #print-area { display: block !important; font-family: Arial, sans-serif; font-size: 14px; line-height: 1.6; color: #000; }
+            .doc-code { text-align: right; font-size: 11px; margin-bottom: 30px; }
+            .header { text-align: center; margin-bottom: 45px; }
+            .header h2 { margin: 0; font-size: 19px; letter-spacing: 1px; }
+            .header h3 { margin: 6px 0 0 0; font-weight: normal; font-size: 15px; }
+            .field-row { display: flex; align-items: flex-end; margin-bottom: 26px; width: 100%; }
+            .field-label { white-space: nowrap; padding-right: 5px; }
+            .field-value { border-bottom: 1px solid #000; flex-grow: 1; padding-left: 8px; font-weight: bold; min-height: 22px; }
+            .checkbox-box { border: 1px solid #000; min-width: 120px; height: 26px; display: inline-block; text-align: center; line-height: 26px; font-weight: bold; margin-left: 8px; margin-right: 20px; padding: 0 5px; }
+            .section-spacer { margin-top: 35px; }
+            .stamps-container { display: flex; justify-content: space-between; margin-top: 15px; }
+            .stamp-box { border: 1px dashed #000; width: 46%; height: 120px; padding: 12px; font-size: 12px; box-sizing: border-box; line-height: 2.2; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- On-Screen Input Form -->
+    <div class="no-print">
+<div style="text-align: center; margin-bottom: 20px;">
+    <h2 style="margin: 0; font-size: 20px;">HOSPITAL SENTOSA KUCHING</h2>
+    <h3 style="margin: 5px 0 0 0; font-size: 16px; color: #555;">PATIENT BIODATA FORM</h3>
+</div>
+
+        <div class="form-grid">
+      <div class="full-width">
+    <label>Name</label>
+    <input type="text" id="in_name" placeholder="Enter full patient name">
+</div>
+
+            <div><label>I/C No.</label><input type="text" id="in_icNo"></div>
+            <div><label>Date of Birth</label><input type="text" id="in_dob"></div>
+            
+            <div>
+                <label>Sex</label>
+                <div class="radio-group">
+                    <label><input type="radio" name="sex_option" value="Male" checked> Male</label>
+                    <label><input type="radio" name="sex_option" value="Female"> Female</label>
+                </div>
+            </div>
+
+            <div>
+                <label>Race</label>
+                <select id="in_race">
+                    <option value="">-- Select --</option>
+                    <option value="Malay">Malay</option>
+                    <option value="Iban">Iban</option>
+                    <option value="Bidayuh">Bidayuh</option>
+                    <option value="Melanau">Melanau</option>
+                    <option value="Other Sarawak Dayak">Other Sarawak Dayak</option>
+                    <option value="Chinese">Chinese</option>
+                    <option value="Indian">Indian</option>
+                    <option value="Jewish">Jewish</option>
+                    <option value="Kadazan">Kadazan</option>
+                    <option value="Dusun">Dusun</option>
+                    <option value="Bajau">Bajau</option>
+                    <option value="Other Sabahan Natives">Other Sabahan Natives</option>
+                    <option value="Other Malaysian">Other Malaysian</option>
+                    <option value="Non-Malaysian">Non-Malaysian</option>
+                </select>
+            </div>
+
+            <div>
+                <label>Religion</label>
+                <select id="in_religion">
+                    <option value="">-- Select --</option>
+                    <option value="Islam">Islam</option>
+                    <option value="Christianity">Christianity</option>
+                    <option value="Judaism">Judaism</option>
+                    <option value="Buddhism">Buddhism</option>
+                    <option value="Taoism">Taoism</option>
+                    <option value="Hinduism">Hinduism</option>
+                    <option value="Sikhism">Sikhism</option>
+                    <option value="Bahai">Bahai</option>
+                    <option value="Pagan">Pagan</option>
+                    <option value="Atheist">Atheist</option>
+                </select>
+            </div>
+
+            <div>
+                <label>Marital Status</label>
+                <select id="in_maritalStatus">
+                    <option value="">-- Select --</option>
+                    <option value="Single">Single</option>
+                    <option value="Married">Married</option>
+                    <option value="Divorced">Divorced</option>
+                    <option value="Widow">Widow</option>
+                </select>
+            </div>
+
+            <div><label>Occupation</label><input type="text" id="in_occupation"></div>
+            <div><label>No. Tel.</label><input type="text" id="in_phoneNo"></div>
+
+            <div class="full-width">
+                <label>Present Address</label>
+                <input type="text" id="in_presentAddress" placeholder="Enter full present address">
+            </div>
+        </div>
+
+        <hr class="divider">
+
+        <h3>Next of Kin</h3>
+        <div class="form-grid">
+<div class="full-width">
+    <label>Name of Next of Kin</label>
+    <input type="text" id="in_nokName" placeholder="Enter full name of next of kin">
+</div>
+
+            <div><label>NRIC No.</label><input type="text" id="in_nokNric"></div>
+            
+            <div>
+                <label>Relationship</label>
+                <select id="in_nokRelationship">
+                    <option value="">-- Select --</option>
+                    <option value="Father">Father</option>
+                    <option value="Mother">Mother</option>
+                    <option value="Son">Son</option>
+                    <option value="Daughter">Daughter</option>
+                    <option value="Husband">Husband</option>
+                    <option value="Wife">Wife</option>
+                    <option value="Elder brother">Elder brother</option>
+                    <option value="Younger brother">Younger brother</option>
+                    <option value="Elder Sister">Elder Sister</option>
+                    <option value="Younger sister">Younger sister</option>
+                    <option value="Nephew">Nephew</option>
+                    <option value="Niece">Niece</option>
+                    <option value="Grandson">Grandson</option>
+                    <option value="Grand daughter">Grand daughter</option>
+                    <option value="Cousin">Cousin</option>
+                    <option value="Care giver">Care giver</option>
+                    <option value="Other">Other</option>
+                </select>
+            </div>
+
+            <div><label>Occupation</label><input type="text" id="in_nokOccupation"></div>
+            <div><label>No. Tel</label><input type="text" id="in_nokPhoneNo"></div>
+
+            <div class="full-width">
+                <label>Address</label>
+                <input type="text" id="in_nokAddress" placeholder="Enter full address of next of kin">
+            </div>
+        </div>
+
+        <hr class="divider">
+
+        <h3>Admission Details</h3>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 15px;">
+            <div>
+                <label>Voluntary</label>
+                <select id="in_voluntary">
+                    <option value="">-- Select --</option>
+                    <option value="Form 1">Form 1</option>
+                    <option value="Other">Other</option>
+                </select>
+            </div>
+
+            <div>
+                <label>Compulsory</label>
+                <select id="in_compulsory">
+                    <option value="">-- Select --</option>
+                    <option value="Form 3 & Form 4">Form 3 & Form 4</option>
+                    <option value="Form 3, 4, 6 & 12">Form 3, 4, 6 & 12</option>
+                    <option value="Form 5">Form 5</option>
+                    <option value="Section 342">Section 342</option>
+                </select>
+            </div>
+
+            <div><label>Number of Previous Admissions</label><input type="text" id="in_previousAdmissions"></div>
+            <div><label>HSK Registration Number</label><input type="text" id="in_hskRegNumber"></div>
+        </div>
+
+
+        <h3>Admission Box Details</h3>
+        <div class="form-grid">
+            <div><label>Admission Reg. No.</label><input type="text" id="in_adminRegNo"></div>
+            <div><label>Admission Date</label><input type="text" id="in_adminDate"></div>
+        </div>
+
+        <button class="print-btn" onclick="printDocument()">Print A4 Form</button>
+    </div>
+
+    <!-- Printable A4 Template -->
+    <div id="print-area">
+        <div class="doc-code">HSK/OPD/2010/05</div>
+        <div class="header">
+            <h2>PSYCHIATRIC CASE RECORD</h2>
+            <h3>Patient's Biodata Sheet</h3>
+        </div>
+        
+        <div class="field-row"><span class="field-label">Name:</span><div class="field-value" id="out_name"></div><span class="field-label" style="padding-left:15px;">I/C No.:</span><div class="field-value" id="out_icNo"></div></div>
+        <div class="field-row"><span class="field-label">Date of Birth:</span><div class="field-value" id="out_dob"></div><span class="field-label" style="padding-left:15px;">Sex:</span><div class="field-value" id="out_sex"></div><span class="field-label" style="padding-left:15px;">Race:</span><div class="field-value" id="out_race"></div></div>
+        <div class="field-row"><span class="field-label">Religion:</span><div class="field-value" id="out_religion"></div><span class="field-label" style="padding-left:15px;">Marital Status:</span><div class="field-value" id="out_maritalStatus"></div></div>
+        <div class="field-row"><span class="field-label">Occupation:</span><div class="field-value" id="out_occupation"></div></div>
+        <div class="field-row"><span class="field-label">Present Address:</span><div class="field-value" id="out_presentAddress"></div></div>
+        <div class="field-row"><div class="field-value"></div><span class="field-label" style="padding-left:15px;">No. Tel.:</span><div class="field-value" id="out_phoneNo"></div></div>
+        
+        <div class="section-spacer"></div>
+        
+        <div class="field-row"><span class="field-label">Name of Next of Kin:</span><div class="field-value" id="out_nokName"></div><span class="field-label" style="padding-left:15px;">NRIC No. :</span><div class="field-value" id="out_nokNric"></div></div>
+        <div class="field-row"><span class="field-label">Relationship:</span><div class="field-value" id="out_nokRelationship"></div><span class="field-label" style="padding-left:15px;">Occupation:</span><div class="field-value" id="out_nokOccupation"></div></div>
+        <div class="field-row"><span class="field-label">Address:</span><div class="field-value" id="out_nokAddress"></div></div>
+        <div class="field-row"><div class="field-value"></div><span class="field-label" style="padding-left:15px;">No. Tel:</span><div class="field-value" id="out_nokPhoneNo"></div></div>
+        
+        <div class="section-spacer"></div>
+        
+        <div class="field-row" style="align-items: center;">
+            <span class="field-label">Admission Status:</span>
+            <span style="margin-left: 20px;">Voluntary:</span><div class="checkbox-box" id="out_voluntary"></div>
+            <span>Compulsory:</span><div class="checkbox-box" id="out_compulsory"></div>
+        </div>
+        <div class="field-row"><span class="field-label">Number of Previous Admission (If any):</span><div class="field-value" id="out_previousAdmissions"></div></div>
+        <div class="field-row"><span class="field-label">HSK Registration Number (If any):</span><div class="field-value" id="out_hskRegNumber"></div></div>
+        
+        <div class="stamps-container">
+            <div class="stamp-box">
+                <strong>ADMISSION</strong><br>
+                REG. NO: <span id="out_adminRegNo">.....................................</span><br>
+                DATE: <span id="out_adminDate">..........................................</span>
+            </div>
+            <div class="stamp-box">
+                <strong>DISCHARGE</strong><br>
+                Date: ..........................................<br>
+                Time: ..........................................
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function printDocument() {
+            // Text and Dropdown fields mapping
+            const fields = ['name', 'icNo', 'dob', 'race', 'religion', 'maritalStatus', 'occupation', 'presentAddress', 'phoneNo', 'nokName', 'nokNric', 'nokRelationship', 'nokOccupation', 'nokAddress', 'nokPhoneNo', 'voluntary', 'compulsory', 'previousAdmissions', 'hskRegNumber'];
+            fields.forEach(id => {
+                document.getElementById('out_' + id).innerText = document.getElementById('in_' + id).value;
+            });
+
+            // Radio button mapping for Sex
+            const selectedSex = document.querySelector('input[name="sex_option"]:checked');
+            document.getElementById('out_sex').innerText = selectedSex ? selectedSex.value : '';
+
+            // Admission stamp box mapping
+            const adminRegNo = document.getElementById('in_adminRegNo').value;
+            const adminDate = document.getElementById('in_adminDate').value;
+            document.getElementById('out_adminRegNo').innerText = adminRegNo ? adminRegNo : '.....................................';
+            document.getElementById('out_adminDate').innerText = adminDate ? adminDate : '..........................................';
+
+            // Trigger system printing dialog
+            window.print();
+        }
+
+        // Register Service Worker for PWA functionality
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('sw.js');
+        }
+    </script>
+</body>
+</html>

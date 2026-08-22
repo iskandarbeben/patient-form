@@ -249,7 +249,13 @@
     <div class="row">
       <div class="form-group">
         <label for="admissionStatus">Admission Status:</label>
-        <input type="text" id="admissionStatus" oninput="updatePrintView()">
+        <select id="admissionStatus" onchange="updatePrintView()">
+          <option value="">-- Select Status --</option>
+          <option value="Voluntary">Voluntary</option>
+          <option value="Compulsory: Section 342">Compulsory: Section 342</option>
+          <option value="Compulsory: Section 344">Compulsory: Section 344</option>
+          <option value="Compulsory: Section 348">Compulsory: Section 348</option>
+        </select>
       </div>
       <div class="form-group">
         <label for="admissionDate">Admission Date:</label>
@@ -340,6 +346,8 @@
       document.getElementById('p_kinOccupation').innerText = document.getElementById('kinOccupation').value;
       document.getElementById('p_kinAddress').innerText = document.getElementById('kinAddress').value;
       document.getElementById('p_kinTel').innerText = document.getElementById('kinTel').value;
+      
+      // Admission Status Dropdown Selection
       document.getElementById('p_admissionStatus').innerText = document.getElementById('admissionStatus').value;
 
       // Format Date of Birth & Admission Date

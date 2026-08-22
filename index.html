@@ -51,6 +51,7 @@
             .field-value { border-bottom: 1px solid #000; flex-grow: 1; padding-left: 8px; font-weight: bold; min-height: 20px; }
             .checkbox-box { border: 1px solid #000; min-width: 110px; height: 24px; display: inline-block; text-align: center; line-height: 24px; font-weight: bold; margin-left: 8px; margin-right: 20px; padding: 0 5px; }
             .section-spacer { margin-top: 32px; }
+            .section-spacer-lg { margin-top: 60px; }
             .stamps-container { display: flex; justify-content: space-between; margin-top: 40px; }       
             .stamp-box { border: 2px solid #000; width: 48%; height: 100px; padding: 8px; font-size: 12px; box-sizing: border-box; line-height: 1.9; }        
                }
@@ -211,7 +212,6 @@
 
         <h3>Admission Box Details</h3>
         <div class="form-grid">
-            <div><label>Admission Reg. No.</label><input type="text" id="in_adminRegNo"></div>
             <div><label>Admission Date</label><input type="text" id="in_adminDate"></div>
         </div>
 
@@ -240,20 +240,20 @@
         <div class="field-row"><span class="field-label">Address:</span><div class="field-value" id="out_nokAddress"></div></div>
         <div class="field-row"><div class="field-value"></div><span class="field-label" style="padding-left:15px;">No. Tel:</span><div class="field-value" id="out_nokPhoneNo"></div></div>
         
-        <div class="section-spacer"></div>
+        <div class="section-spacer-lg"></div>
         
         <div class="field-row" style="align-items: center;">
             <span class="field-label">Admission Status:</span>
             <span style="margin-left: 20px;">Voluntary:</span><div class="checkbox-box" id="out_voluntary"></div>
             <span>Compulsory:</span><div class="checkbox-box" id="out_compulsory"></div>
         </div>
-        <div class="section-spacer"></div>
+        <div class="section-spacer-lg"></div>
         <div class="field-row"><span class="field-label">Number of Previous Admission (If any):</span><div class="field-value" id="out_previousAdmissions"></div></div>
         <div class="field-row"><span class="field-label">HSK Registration Number (If any):</span><div class="field-value" id="out_hskRegNumber"></div></div>
         
         <div class="stamps-container">
             <div class="stamp-box">
-                <strong>ADMISSION</strong><br>
+               <strong>ADMISSION</strong> <span id="out_admissionNumber"></span><br>
                 REG. NO: <span id="out_adminRegNo">.....................................</span><br>
                 DATE: <span id="out_adminDate">..........................................</span>
             </div>
@@ -276,13 +276,17 @@
             // Radio button mapping for Sex
             const selectedSex = document.querySelector('input[name="sex_option"]:checked');
             document.getElementById('out_sex').innerText = selectedSex ? selectedSex.value : '';
+    // Admission stamp box mapping — Reg. No. is auto-copied from HSK Registration Number
+    const hskRegNumber = document.getElementById('in_hskRegNumber').value;
+    document.getElementById('out_adminRegNo').innerText = hskRegNumber ? hskRegNumber : '.....................................';
 
-            // Admission stamp box mapping
-            const adminRegNo = document.getElementById('in_adminRegNo').value;
-            const adminDate = document.getElementById('in_adminDate').value;
-            document.getElementById('out_adminRegNo').innerText = adminRegNo ? adminRegNo : '.....................................';
-            document.getElementById('out_adminDate').innerText = adminDate ? adminDate : '..........................................';
+    const adminDate = document.getElementById('in_adminDate').value;
+    document.getElementById('out_adminDate').innerText = adminDate ? adminDate : '..........................................';
 
+    // Auto-calculate current admission number = previous admissions + 1
+    const previousAdmissions = parseInt(document.getElementById('in_previousAdmissions').value, 10);
+    document.getElementById('out_admissionNumber').innerText = isNaN(previousAdmissions) ? '' : (previousAdmissions + 1);
+         
             // Trigger system printing dialog
             window.print();
         }

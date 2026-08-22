@@ -18,6 +18,10 @@
         .radio-group label { font-weight: normal; font-size: 14px; cursor: pointer; display: flex; align-items: center; gap: 5px; }
         hr.divider { border: 0; height: 1px; background: #ddd; margin: 25px 0; }
         button.print-btn { background-color: #007aff; color: white; border: none; padding: 12px 24px; font-size: 16px; font-weight: bold; border-radius: 6px; cursor: pointer; width: 100%; margin-top: 15px; }
+        .date-input-wrapper { position: relative; display: flex; align-items: center; }
+        .date-input-wrapper input[type="text"] { flex: 1; padding-right: 34px; }
+        .calendar-btn { position: absolute; right: 4px; background: none; border: none; cursor: pointer; font-size: 16px; padding: 4px; }
+        .hidden-date-picker { position: absolute; opacity: 0; width: 0; height: 0; pointer-events: none; }
 
         /* Printable Document Layout (Hidden on Screen) */
         #print-area { display: none; }
@@ -71,7 +75,14 @@
                 <input type="text" id="in_name" placeholder="Enter full patient name">
             </div>
             <div><label>I/C No.</label><input type="text" id="in_icNo"></div>
-            <div><label>Date of Birth</label><input type="text" id="in_dob"></div>
+          <div>
+    <label>Date of Birth</label>
+    <div class="date-input-wrapper">
+        <input type="text" id="in_dob" placeholder="e.g. 1 January 1990">
+        <button type="button" class="calendar-btn" onclick="openDatePicker('in_dob')">📅</button>
+        <input type="date" id="in_dob_hidden" class="hidden-date-picker" onchange="setDateFromPicker('in_dob')">
+    </div>
+</div>
             
             <div>
                 <label>Sex</label>
@@ -212,7 +223,14 @@
 
         <h3>Admission Box Details</h3>
         <div class="form-grid">
-            <div><label>Admission Date</label><input type="text" id="in_adminDate"></div>
+            <div>
+    <label>Admission Date</label>
+    <div class="date-input-wrapper">
+        <input type="text" id="in_adminDate" placeholder="e.g. 22 August 2026">
+        <button type="button" class="calendar-btn" onclick="openDatePicker('in_adminDate')">📅</button>
+        <input type="date" id="in_adminDate_hidden" class="hidden-date-picker" onchange="setDateFromPicker('in_adminDate')">
+    </div>
+</div>
         </div>
 
         <button class="print-btn" onclick="printDocument()">Print A4 Form</button>
@@ -266,6 +284,24 @@
     </div>
 
     <script>
+        function openDatePicker(id) {
+            const picker = document.getElementById(id + '_hidden');
+            if (picker.showPicker) {
+                picker.showPicker();
+            } else {
+                picker.focus();
+                picker.click();
+            }
+        }
+
+        function setDateFromPicker(id) {
+            const picker = document.getElementById(id + '_hidden');
+            const textInput = document.getElementById(id);
+            if (!picker.value) return;
+            const dateObj = new Date(picker.value + 'T00:00:00');
+            textInput.value = dateObj.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
+        }
+
         function printDocument() {
             // Text and Dropdown fields mapping
             const fields = ['name', 'icNo', 'dob', 'race', 'religion', 'maritalStatus', 'occupation', 'presentAddress', 'phoneNo', 'nokName', 'nokNric', 'nokRelationship', 'nokOccupation', 'nokAddress', 'nokPhoneNo', 'voluntary', 'compulsory', 'previousAdmissions', 'hskRegNumber'];

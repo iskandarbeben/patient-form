@@ -22,97 +22,38 @@
         /* Printable Document Layout (Hidden on Screen) */
         #print-area { display: none; }
 
-/* Strict Single-Page A4 Print Layout */
+/* Balanced Single-Page A4 Print Layout with Extra Stamp Clearance */
         @media print {
             @page { 
                 size: A4 portrait; 
-                margin: 5mm 8mm; 
+                margin: 6mm 10mm 4mm 10mm; /* Reduced top and bottom margins to preserve vertical space */
             }
             html, body {
-                height: 100%;
-                background: transparent !important;
-                margin: 0 !important;
-                padding: 0 !important;
-                overflow: hidden;
+                height: 98%; 
+                background: transparent !important; 
+                margin: 0 !important; 
+                padding: 0 !important; 
             }
-            .no-print { 
-                display: none !important; 
-            }
+            .no-print { display: none !important; }
             #print-area { 
                 display: block !important; 
                 font-family: Arial, sans-serif; 
-                font-size: 12px; 
-                line-height: 1.2; 
-                color: #000;
-                page-break-inside: avoid;
-                break-inside: avoid;
-            }
-            .doc-code { 
-                text-align: right; 
-                font-size: 9px; 
-                margin-bottom: 5px; 
-            }
-            .header { 
-                text-align: center; 
-                margin-bottom: 12px; 
-            }
-            .header h2 { 
-                margin: 0; 
-                font-size: 16px; 
-                letter-spacing: 0.5px; 
-            }
-            .header h3 { 
-                margin: 2px 0 0 0; 
-                font-weight: normal; 
-                font-size: 13px; 
-            }
-            .field-row { 
-                display: flex; 
-                align-items: flex-end; 
-                margin-bottom: 10px; 
-                width: 100%; 
-            }
-            .field-label { 
-                white-space: nowrap; 
-                padding-right: 4px; 
-            }
-            .field-value { 
-                border-bottom: 1px solid #000; 
-                flex-grow: 1; 
-                padding-left: 6px; 
-                font-weight: bold; 
-                min-height: 15px; 
-            }
-            .checkbox-box { 
-                border: 1px solid #000; 
-                min-width: 90px; 
-                height: 18px; 
-                display: inline-block; 
-                text-align: center; 
-                line-height: 18px; 
-                font-weight: bold; 
-                margin-left: 6px; 
-                margin-right: 15px; 
-                padding: 0 4px; 
-            }
-            .section-spacer { 
-                margin-top: 8px; 
-            }
-            .stamps-container { 
-                display: flex; 
-                justify-content: space-between; 
-                margin-top: 10px; 
-            }
-            .stamp-box { 
-                border: 1px dashed #000; 
-                width: 48%; 
-                height: 85px; 
-                padding: 6px; 
-                font-size: 10px; 
-                box-sizing: border-box; 
+                font-size: 14px; 
                 line-height: 1.5; 
+                color: #000; 
             }
-        }</head>
+            .doc-code { text-align: right; font-size: 11px; margin-bottom: 12px; }
+            .header { text-align: center; margin-bottom: 20px; }
+            .header h2 { margin: 0; font-size: 19px; letter-spacing: 1px; }
+            .header h3 { margin: 4px 0 0 0; font-weight: normal; font-size: 15px; }
+            .field-row { display: flex; align-items: flex-end; margin-bottom: 18px; width: 100%; }
+            .field-label { white-space: nowrap; padding-right: 5px; }
+            .field-value { border-bottom: 1px solid #000; flex-grow: 1; padding-left: 8px; font-weight: bold; min-height: 20px; }
+            .checkbox-box { border: 1px solid #000; min-width: 110px; height: 24px; display: inline-block; text-align: center; line-height: 24px; font-weight: bold; margin-left: 8px; margin-right: 20px; padding: 0 5px; }
+            .section-spacer { margin-top: 16px; }
+            .stamps-container { display: flex; justify-content: space-between; margin-top: 28px; } /* Increased space above stamp boxes */
+            .stamp-box { border: 1px dashed #000; width: 48%; height: 100px; padding: 8px; font-size: 12px; box-sizing: border-box; line-height: 1.9; }
+        }        }</head>
 <body>
 
     <!-- On-Screen Input Form -->

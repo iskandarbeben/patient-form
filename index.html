@@ -22,42 +22,54 @@
         /* Printable Document Layout (Hidden on Screen) */
         #print-area { display: none; }
 
-        /* A4 Page Print Rules - Fits Single Page */
+        /* Balanced Single-Page A4 Print Layout with Extra Stamp Clearance */
         @media print {
-            @page { size: A4 portrait; margin: 8mm; }
-            body { background: transparent !important; margin: 0; padding: 0; }
+            @page { 
+                size: A4 portrait; 
+                margin: 6mm 10mm 4mm 10mm; 
+            }
+            html, body {
+                height: 98%; 
+                background: transparent !important; 
+                margin: 0 !important; 
+                padding: 0 !important; 
+            }
             .no-print { display: none !important; }
-            #print-area { display: block !important; font-family: Arial, sans-serif; font-size: 13px; line-height: 1.4; color: #000; }
-            .doc-code { text-align: right; font-size: 10px; margin-bottom: 10px; }
-            .header { text-align: center; margin-bottom: 25px; }
-            .header h2 { margin: 0; font-size: 18px; letter-spacing: 1px; }
-            .header h3 { margin: 4px 0 0 0; font-weight: normal; font-size: 14px; }
-            .field-row { display: flex; align-items: flex-end; margin-bottom: 16px; width: 100%; }
+            #print-area { 
+                display: block !important; 
+                font-family: Arial, sans-serif; 
+                font-size: 14px; 
+                line-height: 1.5; 
+                color: #000; 
+            }
+            .doc-code { text-align: right; font-size: 11px; margin-bottom: 12px; }
+            .header { text-align: center; margin-bottom: 20px; }
+            .header h2 { margin: 0; font-size: 19px; letter-spacing: 1px; }
+            .header h3 { margin: 4px 0 0 0; font-weight: normal; font-size: 15px; }
+            .field-row { display: flex; align-items: flex-end; margin-bottom: 18px; width: 100%; }
             .field-label { white-space: nowrap; padding-right: 5px; }
-            .field-value { border-bottom: 1px solid #000; flex-grow: 1; padding-left: 8px; font-weight: bold; min-height: 18px; }
-            .checkbox-box { border: 1px solid #000; min-width: 100px; height: 22px; display: inline-block; text-align: center; line-height: 22px; font-weight: bold; margin-left: 8px; margin-right: 20px; padding: 0 5px; }
-            .section-spacer { margin-top: 15px; }
-            .stamps-container { display: flex; justify-content: space-between; margin-top: 15px; }
-            .stamp-box { border: 1px dashed #000; width: 48%; height: 100px; padding: 8px; font-size: 11px; box-sizing: border-box; line-height: 1.8; }
+            .field-value { border-bottom: 1px solid #000; flex-grow: 1; padding-left: 8px; font-weight: bold; min-height: 20px; }
+            .checkbox-box { border: 1px solid #000; min-width: 110px; height: 24px; display: inline-block; text-align: center; line-height: 24px; font-weight: bold; margin-left: 8px; margin-right: 20px; padding: 0 5px; }
+            .section-spacer { margin-top: 16px; }
+            .stamps-container { display: flex; justify-content: space-between; margin-top: 28px; }
+            .stamp-box { border: 1px dashed #000; width: 48%; height: 100px; padding: 8px; font-size: 12px; box-sizing: border-box; line-height: 1.9; }
         }
-
     </style>
 </head>
 <body>
 
     <!-- On-Screen Input Form -->
     <div class="no-print">
-<div style="text-align: center; margin-bottom: 20px;">
-    <h2 style="margin: 0; font-size: 20px;">HOSPITAL SENTOSA KUCHING</h2>
-    <h3 style="margin: 5px 0 0 0; font-size: 16px; color: #555;">PATIENT BIODATA FORM</h3>
-</div>
+        <div style="text-align: center; margin-bottom: 20px;">
+            <h2 style="margin: 0; font-size: 20px;">HOSPITAL SENTOSA KUCHING</h2>
+            <h3 style="margin: 5px 0 0 0; font-size: 16px; color: #555;">PATIENT BIODATA FORM</h3>
+        </div>
 
         <div class="form-grid">
-      <div class="full-width">
-    <label>Name</label>
-    <input type="text" id="in_name" placeholder="Enter full patient name">
-</div>
-
+            <div class="full-width">
+                <label>Name</label>
+                <input type="text" id="in_name" placeholder="Enter full patient name">
+            </div>
             <div><label>I/C No.</label><input type="text" id="in_icNo"></div>
             <div><label>Date of Birth</label><input type="text" id="in_dob"></div>
             
@@ -131,11 +143,10 @@
 
         <h3>Next of Kin</h3>
         <div class="form-grid">
-<div class="full-width">
-    <label>Name of Next of Kin</label>
-    <input type="text" id="in_nokName" placeholder="Enter full name of next of kin">
-</div>
-
+            <div class="full-width">
+                <label>Name of Next of Kin</label>
+                <input type="text" id="in_nokName" placeholder="Enter full name of next of kin">
+            </div>
             <div><label>NRIC No.</label><input type="text" id="in_nokNric"></div>
             
             <div>
@@ -198,7 +209,6 @@
             <div><label>Number of Previous Admissions</label><input type="text" id="in_previousAdmissions"></div>
             <div><label>HSK Registration Number</label><input type="text" id="in_hskRegNumber"></div>
         </div>
-
 
         <h3>Admission Box Details</h3>
         <div class="form-grid">

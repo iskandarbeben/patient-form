@@ -36,7 +36,7 @@
         #print-area { display: none; }
         #print-area-2 { display: none; }
         #print-area-3 { display: none; }
-        .first-visit-stamp { text-align: center; margin-top: 25px; }
+        .first-visit-stamp { text-align: center; margin-top: 12px; }
 
         /* Balanced Single-Page A4 Print Layout */
         @media print {
@@ -285,6 +285,13 @@
 
         <div class="form-grid">
             <div class="full-width">
+                <label>New Case?</label>
+                <div class="radio-group">
+                    <label><input type="radio" name="new_case_option" value="Yes"> Yes</label>
+                    <label><input type="radio" name="new_case_option" value="No" checked> No</label>
+                </div>
+            </div>
+            <div class="full-width">
                 <label>Print Borang Kemasukan Sementara?</label>
                 <div class="radio-group">
                     <label><input type="radio" name="print_bks_option" value="Yes"> Yes</label>
@@ -345,7 +352,7 @@
         </div>
 
         <div id="out_firstVisitStamp" class="first-visit-stamp" style="display:none;">
-            <svg viewBox="0 0 200 200" width="160" height="160">
+            <svg viewBox="0 0 200 200" width="85" height="85">
                 <circle cx="100" cy="100" r="95" fill="none" stroke="#000" stroke-width="2"/>
                 <circle cx="100" cy="100" r="88" fill="none" stroke="#000" stroke-width="1.5"/>
                 <circle cx="100" cy="100" r="55" fill="none" stroke="#000" stroke-width="1.5"/>
@@ -561,8 +568,10 @@
             const admissionNumberDisplay = isNaN(previousAdmissions) ? '.....................................' : (previousAdmissions + 1);
             document.getElementById('out_admissionNumber').innerText = admissionNumberDisplay;
 
-            // Show the "1st Visit / New Case" stamp only if Previous Admissions is exactly 0
-            document.getElementById('out_firstVisitStamp').style.display = (previousAdmissions === 0) ? 'block' : 'none';
+            // Show the "1st Visit / New Case" stamp based on the "New Case?" radio button selection
+            const newCaseSelected = document.querySelector('input[name="new_case_option"]:checked');
+            const isNewCase = newCaseSelected && newCaseSelected.value === 'Yes';
+            document.getElementById('out_firstVisitStamp').style.display = isNewCase ? 'block' : 'none';
 
             // Page 2 (SAMBUNGAN form) — pulled from Name (uppercased) and I/C No.
             document.getElementById('out_nameUpper').innerText = document.getElementById('in_name').value.toUpperCase();

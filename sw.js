@@ -1,4 +1,4 @@
-const CACHE_NAME = 'patient-form-cache-v1';
+const CACHE_NAME = 'patient-form-cache-v4';
 const FILES_TO_CACHE = [
     './',
     './index.html',

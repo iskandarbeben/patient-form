@@ -1,8 +1,9 @@
-const CACHE_NAME = 'patient-form-cache-v7';
+const CACHE_NAME = 'patient-form-cache-v8';
 const FILES_TO_CACHE = [
     './',
     './index.html',
-    './manifest.json'
+    './manifest.json',
+    './new-case-stamp.png'
 ];
 
 // Install: save the app files to local cache

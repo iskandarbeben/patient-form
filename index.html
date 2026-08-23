@@ -441,3 +441,196 @@
         <div class="field-row" style="align-items: center;">
             <span class="field-label">Admission Status:</span>
             <span style="margin-left: 20px;">Voluntary:</span><div class="checkbox-box" id="out3_voluntary"></div>
+            <span>Compulsory:</span><div class="checkbox-box" id="out3_compulsory"></div>
+        </div>
+
+        <div class="field-row"><span class="field-label">Number of Admission:</span><div class="field-value" id="out3_admissionNumber"></div></div>
+
+        <div class="section-spacer"></div>
+
+        <div class="bks-section-title">TREATMENT AT OPD PRIOR TO ADMISSION</div>
+
+        <div class="field-row"><span class="field-label">DIAGNOSIS:</span><div class="field-value" id="out3_diagnosis"></div></div>
+
+        <div class="bks-vital-title">VITAL SIGN</div>
+        <div class="field-row">
+            <span class="field-label">Temperature:</span><div class="field-value" style="flex-grow:0.4;"></div><span class="field-label" style="padding-left:5px;">&deg;C</span>
+            <span class="field-label" style="padding-left:15px;">Blood Pressure:</span><div class="field-value" style="flex-grow:0.4;"></div><span class="field-label" style="padding-left:5px;">mmhg</span>
+            <span class="field-label" style="padding-left:15px;">Pulse Rate:</span><div class="field-value" style="flex-grow:0.4;"></div><span class="field-label" style="padding-left:5px;">/min</span>
+        </div>
+
+        <table class="bks-table">
+            <tr>
+                <th style="width:15%;">TIME</th>
+                <th>TREATMENT (e.g: Acute Regime)</th>
+                <th style="width:18%;">Ordered By</th>
+                <th style="width:18%;">Given By</th>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+        </table>
+
+        <div class="field-row" style="margin-top: 30px;"><span class="field-label">Prepared By:</span><div class="field-value"></div><span class="field-label" style="padding-left:15px;">Received By:</span><div class="field-value"></div></div>
+    </div>
+
+    <script>
+        let currentCalendarField = null;
+        let calendarViewDate = new Date();
+
+        function toggleCalendar(fieldId, btnEl) {
+            const existing = document.getElementById('calendar-popup');
+            if (existing && currentCalendarField === fieldId && existing.classList.contains('open')) {
+                existing.classList.remove('open');
+                currentCalendarField = null;
+                return;
+            }
+            currentCalendarField = fieldId;
+            const textInput = document.getElementById(fieldId);
+            const parsed = new Date(textInput.value);
+            calendarViewDate = isNaN(parsed) ? new Date() : parsed;
+            renderCalendar(btnEl.parentElement);
+        }
+
+        function renderCalendar(wrapperEl) {
+            let popup = document.getElementById('calendar-popup');
+            if (!popup) {
+                popup = document.createElement('div');
+                popup.id = 'calendar-popup';
+                popup.className = 'calendar-popup';
+                document.body.appendChild(popup);
+            }
+            wrapperEl.appendChild(popup);
+
+            const year = calendarViewDate.getFullYear();
+            const month = calendarViewDate.getMonth();
+            const monthNames = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+            const firstDay = new Date(year, month, 1);
+            let startWeekday = (firstDay.getDay() + 6) % 7;
+            const daysInMonth = new Date(year, month + 1, 0).getDate();
+
+            let html = '<div class="calendar-popup-header">' +
+                '<button type="button" onclick="changeCalendarMonth(-1)">&#9664;</button>' +
+                '<span>' + monthNames[month] + ' ' + year + '</span>' +
+                '<button type="button" onclick="changeCalendarMonth(1)">&#9654;</button></div>' +
+                '<div class="calendar-popup-grid">' +
+                '<span>Mo</span><span>Tu</span><span>We</span><span>Th</span><span>Fr</span><span>Sa</span><span>Su</span>';
+
+            for (let i = 0; i < startWeekday; i++) { html += '<span></span>'; }
+            for (let d = 1; d <= daysInMonth; d++) { html += '<button type="button" onclick="selectCalendarDate(' + d + ')">' + d + '</button>'; }
+            html += '</div>';
+            popup.innerHTML = html;
+            popup.classList.add('open');
+        }
+
+        function changeCalendarMonth(delta) {
+            calendarViewDate.setMonth(calendarViewDate.getMonth() + delta);
+            const popup = document.getElementById('calendar-popup');
+            renderCalendar(popup.parentElement);
+        }
+
+        function selectCalendarDate(day) {
+            const chosen = new Date(calendarViewDate.getFullYear(), calendarViewDate.getMonth(), day);
+            document.getElementById(currentCalendarField).value = chosen.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
+            document.getElementById('calendar-popup').classList.remove('open');
+            currentCalendarField = null;
+        }
+
+        document.addEventListener('click', function(e) {
+            const popup = document.getElementById('calendar-popup');
+            if (!popup) return;
+            if (!popup.contains(e.target) && !e.target.classList.contains('calendar-btn')) {
+                popup.classList.remove('open');
+                currentCalendarField = null;
+            }
+        });
+
+        function printDocument() {
+            // Text and Dropdown fields mapping — Page 1
+            const fields = ['name', 'icNo', 'dob', 'race', 'religion', 'maritalStatus', 'occupation', 'presentAddress', 'phoneNo', 'nokName', 'nokNric', 'nokRelationship', 'nokOccupation', 'nokAddress', 'nokPhoneNo', 'voluntary', 'compulsory', 'previousAdmissions', 'hskRegNumber'];
+            fields.forEach(id => {
+                document.getElementById('out_' + id).innerText = document.getElementById('in_' + id).value;
+            });
+
+            // Radio button mapping for Sex
+            const selectedSex = document.querySelector('input[name="sex_option"]:checked');
+            const sexValue = selectedSex ? selectedSex.value : '';
+            document.getElementById('out_sex').innerText = sexValue;
+
+            // Admission stamp box mapping — Reg. No. is auto-copied from HSK Registration Number
+            const hskRegNumber = document.getElementById('in_hskRegNumber').value;
+            document.getElementById('out_adminRegNo').innerText = hskRegNumber ? hskRegNumber : '.....................................';
+
+            const adminDate = document.getElementById('in_adminDate').value;
+            document.getElementById('out_adminDate').innerText = adminDate ? adminDate : '..........................................';
+
+            const adminTime = document.getElementById('in_adminTime').value;
+            document.getElementById('out_adminTime').innerText = adminTime ? adminTime : '..........................................';
+
+            // Auto-calculate current admission number = previous admissions + 1
+            const previousAdmissionsRaw = document.getElementById('in_previousAdmissions').value;
+            const previousAdmissions = parseInt(previousAdmissionsRaw, 10);
+            const admissionNumberDisplay = isNaN(previousAdmissions) ? '.....................................' : (previousAdmissions + 1);
+            document.getElementById('out_admissionNumber').innerText = admissionNumberDisplay;
+
+            // Show the "1st Visit / New Case" stamp based on the "New Case?" radio button selection
+            const newCaseSelected = document.querySelector('input[name="new_case_option"]:checked');
+            const isNewCase = newCaseSelected && newCaseSelected.value === 'Yes';
+            document.getElementById('out_firstVisitStamp').style.display = isNewCase ? 'block' : 'none';
+
+            // Page 2 (SAMBUNGAN form) — pulled from Name (uppercased) and I/C No.
+            document.getElementById('out_nameUpper').innerText = document.getElementById('in_name').value.toUpperCase();
+            document.getElementById('out_icNoPage2').innerText = document.getElementById('in_icNo').value;
+
+            // Page 3 (Borang Kemasukan Sementara) — pulled from the same fields as Page 1
+            document.getElementById('out3_name').innerText = document.getElementById('in_name').value;
+            document.getElementById('out3_icNo').innerText = document.getElementById('in_icNo').value;
+            document.getElementById('out3_dob').innerText = document.getElementById('in_dob').value;
+            document.getElementById('out3_race').innerText = document.getElementById('in_race').value;
+            document.getElementById('out3_religion').innerText = document.getElementById('in_religion').value;
+            document.getElementById('out3_sex').innerText = sexValue;
+            document.getElementById('out3_occupation').innerText = document.getElementById('in_occupation').value;
+            document.getElementById('out3_maritalStatus').innerText = document.getElementById('in_maritalStatus').value;
+            document.getElementById('out3_presentAddress').innerText = document.getElementById('in_presentAddress').value;
+            document.getElementById('out3_nokName').innerText = document.getElementById('in_nokName').value;
+            document.getElementById('out3_nokNric').innerText = document.getElementById('in_nokNric').value;
+            document.getElementById('out3_nokRelationship').innerText = document.getElementById('in_nokRelationship').value;
+            document.getElementById('out3_nokOccupation').innerText = document.getElementById('in_nokOccupation').value;
+            document.getElementById('out3_nokAddress').innerText = document.getElementById('in_nokAddress').value;
+            document.getElementById('out3_voluntary').innerText = document.getElementById('in_voluntary').value;
+            document.getElementById('out3_compulsory').innerText = document.getElementById('in_compulsory').value;
+            document.getElementById('out3_admissionNumber').innerText = admissionNumberDisplay;
+            document.getElementById('out3_diagnosis').innerText = document.getElementById('in_diagnosis').value;
+
+            // Toggle whether Page 2 (SAMBUNGAN) prints, based on "Planned For Admission?"
+            const plannedAdmission = document.querySelector('input[name="planned_admission_option"]:checked').value;
+            const page2 = document.getElementById('print-area-2');
+            if (plannedAdmission === 'Yes') {
+                page2.classList.remove('hidden-print');
+            } else {
+                page2.classList.add('hidden-print');
+            }
+
+            // Toggle whether Page 3 (Borang Kemasukan Sementara) prints, based on "Print Borang Kemasukan Sementara?"
+            const printBKS = document.querySelector('input[name="print_bks_option"]:checked').value;
+            const page3 = document.getElementById('print-area-3');
+            if (printBKS === 'Yes') {
+                page3.classList.remove('hidden-print');
+            } else {
+                page3.classList.add('hidden-print');
+            }
+
+            // Trigger system printing dialog
+            window.print();
+        }
+
+        // Register Service Worker for PWA functionality
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('sw.js');
+        }
+    </script>
+</body>
+</html>
